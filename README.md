@@ -2,6 +2,8 @@
 
 A API Net Tools é um aplicativo Mule implantável que você pode implementar no CloudHub ou em qualquer nuvem de trabalho. O aplicativo expõe uma interface de usuário muito simples que permite executar comandos básicos de rede. A ideia é que a maioria dos problemas de rede relacionados à sua VPC e VPN do CloudHub esteja ligada à conectividade com seus sistemas locais, e a maioria desses problemas acaba sendo resolvida no lado do cliente. Com essa ferramenta disponível, você pode trabalhar com sua equipe de rede para testar a conectividade com vários sistemas locais e verificar se o firewall e as regras de roteamento estão funcionando. Ela também pode ser usada para gerar tráfego que auxilie no diagnóstico de problemas de rede.
 
+![Interface Net-Tools](/interface_net-tools.jpg)
+
 Ela suporta conexões HTTP e HTTPS com uma porta configurável para cada uma.
 
 ## Funcionalidades
