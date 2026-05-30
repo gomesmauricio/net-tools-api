@@ -1,56 +1,62 @@
-# Net Tools API
+# API Net Tools
 
-The Net Tools API is a deployable Mule app that you can deploy to CloudHub or any worker cloud. The app will then expose a very simple UI that will allow you to do basic networking commands. The idea is that most networking related issues with your CloudHub VPC and VPN are related to connectivity to your on-prem systems, and most of those issues end up being resolved on the customer end. If you have this tool available to you, you can work with your Networking team to test connectivity to various on-prem systems and verify that firewall and routing rules are working.  It can also be used to generate some traffic that can help with diagnosing networking issues.
+A API Net Tools é um aplicativo Mule implantável que você pode implementar no CloudHub ou em qualquer nuvem de trabalho. O aplicativo expõe uma interface de usuário muito simples que permite executar comandos básicos de rede. A ideia é que a maioria dos problemas de rede relacionados à sua VPC e VPN do CloudHub esteja ligada à conectividade com seus sistemas locais, e a maioria desses problemas acaba sendo resolvida no lado do cliente. Com essa ferramenta disponível, você pode trabalhar com sua equipe de rede para testar a conectividade com vários sistemas locais e verificar se o firewall e as regras de roteamento estão funcionando. Ela também pode ser usada para gerar tráfego que auxilie no diagnóstico de problemas de rede.
 
-This supports HTTP and HTTPS connections with a configurable port for each.
+Ela suporta conexões HTTP e HTTPS com uma porta configurável para cada uma.
 
-## Features
+## Funcionalidades
 
-- DNS lookups
+- Consultas de DNS
 - Ping
 - TraceRoute
-- Opening a TCP socket
-- Simple curl request
-- Pull SSL certificates
-- Check supported ciphers for a given SSL/TLS endpoint
+- Abertura de um socket TCP
+- Requisição curl simples
+- Obtenção de certificados SSL
+- Verificação de cifras suportadas para um determinado endpoint SSL/TLS
 
-## Latest build
+## Versão mais recente
 
-Latest build can be found here: https://github.com/mulesoft-labs/net-tools-api/releases
+A versão mais recente pode ser encontrada aqui: https://github.com/mulesoft-labs/net-tools-api/releases
 
-# Usage
+# Uso
 
-The UI can be accessed by using the base URL for the app.  The options are listed below.
+A interface do usuário pode ser acessada usando a URL base do aplicativo. As opções estão listadas abaixo.
 
-- CloudHub Shared Load Balancer: `http://{app-name}.{region}.cloudhub.io` where the app-name and region are specific to the deployed app.
-- Dedicated Load Balancer: `custom url`.  See *Configuration* section to update settings.
+- Balanceador de Carga Compartilhado do CloudHub: `http://{nome-do-aplicativo}.{região}.cloudhub.io`, onde o nome-do-aplicativo e a região são específicos para o aplicativo implantado.
 
-The UI is protected by Basic Authentication, and the default credentials are listed in the *Configuration* section.
+- Balanceador de Carga Dedicado: `URL personalizada`. Consulte a seção *Configuração* para atualizar as configurações.
 
-# Configuration
-The properties below can be set on the app to override the default settings.  The proper ports must be set to accommodate load balancer and VPC firewall rule settings.  The default settings are for the CloudHub shared load balancer HTTP endpoint.
+A interface do usuário é protegida por Autenticação Básica e as credenciais padrão estão listadas na seção *Configuração*.
 
-- `user`: User name for login.  Defaults to `vpc-tools`
-- `pass`: Password for login.  Defaults to `SomePass`
-- `httpPort`: Sets the listener port for HTTP.  Defaults to `8081`
-- `httpsPort`: Sets the listener port for HTTPS.  Defaults to `8082`
-- `httpListener`: The running state of the HTTP endpoint flows.  Defaults to `started`.  Options: `started` or `stopped`.  Stop this to disable HTTP endpoint on CloudHub 1.0 or non-RTF infrastructure.  This doesn't affect RTF or CloudHub 2.0 because only a single HTTP port is used.
-- `ignoreFiles`: Comma-delimited list of browser-requested resource files for this app to ignore.  Defaults to `favicon.ico`.
+# Configuração
+As propriedades abaixo podem ser definidas no aplicativo para substituir as configurações padrão. As portas corretas devem ser configuradas para acomodar as configurações do balanceador de carga e das regras de firewall da VPC. As configurações padrão são para o endpoint HTTP do balanceador de carga compartilhado do CloudHub.
 
-## Network Considerations
+- `user`: Nome de usuário para login. O padrão é `vpc-tools`
+- `pass`: Senha para login. O padrão é `SomePass`
+- `httpPort`: Define a porta de escuta para HTTP. O padrão é `8081`
+- `httpsPort`: Define a porta de escuta para HTTPS. O padrão é `8082`
+- `httpListener`: O estado de execução dos fluxos do endpoint HTTP. O padrão é `started`. Opções: `started` ou `stopped`. Desative esta opção para desabilitar o endpoint HTTP no CloudHub 1.0 ou em infraestruturas não RTF. Isso não afeta o RTF ou o CloudHub 2.0, pois apenas uma única porta HTTP é usada.
 
-- `httpsPort` and `httpPort` **must always** be different numbers, even if `httpListener=stopped`.  This is because both HTTP and HTTPS listener configurations are always created, even if the HTTP endpoint is not enabled.
-- CloudHub 2.0 and RTF only use a single port for the HTTP listener.  This means you can only run either HTTP or HTTPS, but not both at the same time.  Make sure the property you want to use is set to the proper port and the other is set to another unused port.
-- When using CloudHub 2.0 and RTF, you must enable *Last-Mile Security* in the app's Ingress tab if you want to use HTTPS.
-- This does not use `http.port` and `https.port` properties since those are overrriden on Cloudhub 2.0 and RTF to the same port and will prevent the app from starting because of a port conflict.
+- `ignoreFiles`: Lista de arquivos de recursos solicitados pelo navegador, separados por vírgula, que este aplicativo deve ignorar. O padrão é `favicon.ico`.
 
-# References
-- [CloudHub 2.0 Infrastructure Considerations](https://docs.mulesoft.com/cloudhub-2/ch2-comparison#infrastructure-considerations)
-- [CloudHub 1.0 Load Balancer Architecture](https://docs.mulesoft.com/cloudhub-1/lb-architecture)
-- [Enable Last Mile Security in RTF](https://help.mulesoft.com/s/article/How-to-Enable-both-Last-Mile-Security-and-Mutual-TLS-in-Runtime-Fabric)
+## Considerações de Rede
 
-# Maintenance
-This uses the JS libraries below.
-- jQuery 1.11.3 [min](https://code.jquery.com/jquery-1.11.3.min.js) and [map](https://code.jquery.com/jquery-1.11.3.min.map).
-- [Toastr](https://github.com/CodeSeven/toastr) 2.1.4 [min, map, and css](https://cdnjs.com/libraries/toastr.js).
+- `httpsPort` e `httpPort` **devem sempre** ser números diferentes, mesmo se `httpListener=stopped`. Isso ocorre porque as configurações de ouvinte HTTP e HTTPS são sempre criadas, mesmo que o endpoint HTTP não esteja habilitado.
 
+- O CloudHub 2.0 e o RTF usam apenas uma única porta para o ouvinte HTTP. Isso significa que você só pode executar HTTP ou HTTPS, mas não ambos ao mesmo tempo. Certifique-se de que a propriedade que você deseja usar esteja definida com a porta correta e a outra esteja definida com uma porta não utilizada.
+
+- Ao usar o CloudHub 2.0 e o RTF, você deve habilitar a *Segurança de Última Milha* na guia Ingress do aplicativo se quiser usar HTTPS.
+
+- Isso não usa as propriedades `http.port` e `https.port`, pois elas são sobrescritas no CloudHub 2.0 e no RTF para a mesma porta e impedirão a inicialização do aplicativo devido a um conflito de portas.
+
+# Referências
+- [Considerações sobre a infraestrutura do CloudHub 2.0](https://docs.mulesoft.com/cloudhub-2/ch2-comparison#infrastructure-considerations)
+- [Arquitetura do balanceador de carga do CloudHub 1.0](https://docs.mulesoft.com/cloudhub-1/lb-architecture)
+- [Habilitar segurança de última milha no RTF](https://help.mulesoft.com/s/article/How-to-Enable-both-Last-Mile-Security-and-Mutual-TLS-in-Runtime-Fabric)
+
+# Manutenção
+Este código utiliza as bibliotecas JS abaixo.
+
+- jQuery 1.11.3 [min](https://code.jquery.com/jquery-1.11.3.min.js) e [map](https://code.jquery.com/jquery-1.11.3.min.map).
+
+- [Toastr](https://github.com/CodeSeven/toastr) 2.1.4 [min, map e css](https://cdnjs.com/libraries/toastr.js).
