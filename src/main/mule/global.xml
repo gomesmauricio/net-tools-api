@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd
 http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 	
-	<configuration-properties doc:name="Properties Config" file="properties.yaml" />
+	<configuration-properties doc:name="Properties Config" file="properties-dev.yaml" />
 		
 	<http:listener-config name="http">
         <http:listener-connection host="0.0.0.0" port="${httpPort}" />
